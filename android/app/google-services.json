@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209544392405",
+    "project_id": "smileapp-c6b27",
+    "storage_bucket": "smileapp-c6b27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209544392405:android:fddcc950b5c1dbfad9bc5c",
+        "android_client_info": {
+          "package_name": "com.technocore.smileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBywWsFQyc8fJmFJcDpYyKFO8ZqXe-NweE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

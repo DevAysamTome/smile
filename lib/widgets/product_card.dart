@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smileapp/providers/favorites_provider.dart';
+import 'package:smileapp/screens/product_details.dart';
+import 'package:smileapp/utils/product_card_widget.dart';
+import '../data/models/product.dart';
+
+class ProductCardWithButtons extends StatelessWidget {
+  final Product product;
+
+  const ProductCardWithButtons({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // البطاقة من المكتبة
+       ProductCard(
+          productName: product.name,
+          price: product.price,
+          isAvailable: true,
+          rating: 4.5,
+          discountPercentage: product.discount,
+          
+          categoryName: product.category,
+          imageUrl: product.imageUrl,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => ProductDetailsScreen(product: product)),
+            );
+          },
+          onFavoritePressed: () {
+              Provider.of<FavoritesProvider>(context, listen: false).addToFavorites(product);
+ ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('تمت إضافة المنتج إلى المفضلة')));
+          },
+        ),
+        // الأزرار المخصصة
+        
+      ],
+    );
+  }
+}
