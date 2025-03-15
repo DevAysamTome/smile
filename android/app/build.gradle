@@ -12,7 +12,9 @@ android {
     namespace = "com.example.smileapp"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
+    aaptOptions {  
+        cruncherEnabled = false  
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
