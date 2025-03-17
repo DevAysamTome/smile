@@ -21,9 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   bool isSearch = false;
   List<String> promoImages = [
-    'https://www.shutterstock.com/image-vector/80-percent-off-discount-creative-260nw-1980213830.jpg',
-    'https://t4.ftcdn.net/jpg/02/08/70/39/360_F_208703906_nUdO5KmiiQrGEXAQihVazt92XiwAGD1t.jpg',
-    'https://img.freepik.com/free-vector/realistic-beauty-sale-banner-design_52683-92668.jpg?semt=ais_hybrid',
+    'https://www.shutterstock.com/image-vector/sale-off-discount-promotion-set-600nw-2389397201.jpg',
+    'https://www.shutterstock.com/image-vector/white-friday-arabic-calligraphy-sale-260nw-2216166673.jpg',
+    'https://www.shutterstock.com/image-vector/free-shipping-delivery-white-arabic-260nw-2537471247.jpg',
   ];
   @override
   void dispose() {
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepPurple.shade300, Colors.white],
+                colors: [Colors.deepOrangeAccent.shade100, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   !isSearch
                       ? Column(
                           children: [
+                            SizedBox(height: 30,),
                             _buildCategorySection(categoriesProvider),
                             PromoSlider(images: promoImages),
                             Padding(
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       'عرض الكل',
                                       style:
-                                          TextStyle(color: Colors.deepPurpleAccent),
+                                          TextStyle(color: Colors.deepOrange),
                                     ),
                                   )
                                 ],
@@ -119,6 +120,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 10,
                             ),
                             _buildFeaturedSection(productsProvider),
+                             SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                               padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Row(
+                                  children: [
+                                    const Text(
+                                      'عروض وخصومات',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () {
+                                        // الانتقال إلى شاشة أخرى لعرض الكل
+                                        Navigator.pushNamed(
+                                            context, '/explore-screen');
+                                      },
+                                      child: Text(
+                                        'عرض الكل',
+                                        style:
+                                            TextStyle(color: Colors.deepOrange),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                            ),
+                            _buildDiscountSection(productsProvider)
                           ],
                         )
                       : Padding(
@@ -199,11 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
                 // لون الخط والسمك
-                side: BorderSide(color: Colors.deepPurple.shade300, width: 2),
+                side: BorderSide(color: Colors.deepOrange.shade300, width: 2),
                 // خلفية بيضاء
                 backgroundColor: Colors.white,
                 // لون النص والأيقونات
-                foregroundColor: Colors.deepPurple.shade300,
+                foregroundColor: Colors.deepOrange.shade300,
                 // شكل الزر (حواف مستديرة مثلاً)
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
@@ -264,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const Spacer(),
             const CircleAvatar(
-              backgroundImage: AssetImage('assets/smile_logo.jpeg'),
+              backgroundImage: AssetImage('assets/smile_logo.png'),
             ),
             const SizedBox(width: 5),
           ],
@@ -273,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
       centerTitle: false,
 
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(40),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
@@ -382,4 +414,37 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  Widget _buildDiscountSection(ProductsProvider productsProvider) {
+  if (productsProvider.isLoading) {
+    return const Center(child: CircularProgressIndicator());
+  }
+  // جلب جميع المنتجات
+  final allProducts = productsProvider.products;
+  // تصفية المنتجات التي لديها خصم
+  final discountProducts = allProducts.where((p) => p.discount > 0).toList();
+
+  if (discountProducts.isEmpty) {
+    return const Center(child: Text('لا يوجد منتجات عليها خصم حالياً.'));
+  }
+
+  return Container(
+    height: 360,
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: discountProducts.length,
+      itemBuilder: (ctx, index) {
+        final product = discountProducts[index];
+        return Container(
+          width: 220,
+          margin: const EdgeInsets.only(right: 8),
+          child: ProductCardWithButtons(
+            product: product,
+          ),
+        );
+      },
+    ),
+  );
+}
+
 }

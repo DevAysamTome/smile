@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smileapp/app.dart';
 import 'package:smileapp/data/models/product.dart';
+import 'package:smileapp/screens/categories_screen_main.dart';
 import 'package:smileapp/screens/favorites_screen.dart';
 import 'package:smileapp/screens/product_details.dart';
 import 'package:smileapp/screens/splash_screen.dart';
