@@ -4,17 +4,17 @@ import Firebase
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
-    
-  override init() {
-    super.init()
-    FirebaseApp.configure()
-  }
-
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-      GeneratedPluginRegistrant.register(with: self)
+    // استدعاء تهيئة Firebase هنا
+    FirebaseApp.configure()
+
+    // تسجيل البلغِنات (Plugins)
+    GeneratedPluginRegistrant.register(with: self)
+
+    // أكمل التهيئة الافتراضية
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
