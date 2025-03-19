@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepOrangeAccent.shade100, Colors.white],
+                colors: [Colors.deepPurpleAccent.shade100, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       'عرض الكل',
                                       style:
-                                          TextStyle(color: Colors.deepOrange),
+                                          TextStyle(color: Colors.deepPurple),
                                     ),
                                   )
                                 ],
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Text(
                                         'عرض الكل',
                                         style:
-                                            TextStyle(color: Colors.deepOrange),
+                                            TextStyle(color: Colors.deepPurple),
                                       ),
                                     )
                                   ],
@@ -231,11 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
                 // لون الخط والسمك
-                side: BorderSide(color: Colors.deepOrange.shade300, width: 2),
+                side: BorderSide(color: Colors.deepPurple.shade300, width: 2),
                 // خلفية بيضاء
                 backgroundColor: Colors.white,
                 // لون النص والأيقونات
-                foregroundColor: Colors.deepOrange.shade300,
+                foregroundColor: Colors.deepPurple.shade300,
                 // شكل الزر (حواف مستديرة مثلاً)
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
@@ -296,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const Spacer(),
             const CircleAvatar(
-              backgroundImage: AssetImage('assets/smile_logo.png'),
+              backgroundImage: AssetImage('assets/smile_logo.jpeg'),
             ),
             const SizedBox(width: 5),
           ],
@@ -392,6 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     final products = productsProvider.products;
     if (products.isEmpty) {
+      print(products.length);
       return Center(child: Text('لا يوجد منتجات مميزة حالياً.'));
     }
     return Container(

@@ -25,7 +25,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     // إذا كان المنتج يحتوي على أحجام في product.sizes، اختر أول حجم بشكل افتراضي
     if (widget.product.sizes != null && widget.product.sizes!.isNotEmpty) {
-      _selectedSize = widget.product.sizes!.first;
+      _selectedSize = widget.product.sizes![0].name;
     }
   }
 
@@ -87,7 +87,7 @@ double discountedPrice = product.price - (product.price * product.discount / 100
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepOrangeAccent.shade100, Colors.white],
+                colors: [Colors.deepPurpleAccent.shade100, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -223,7 +223,7 @@ double discountedPrice = product.price - (product.price * product.discount / 100
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepOrange.shade300,
+                              backgroundColor: Colors.deepPurple.shade300,
                             ),
                             child: const Text(
                               'اشترِ الآن',
@@ -241,9 +241,9 @@ double discountedPrice = product.price - (product.price * product.discount / 100
                         Expanded(
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.deepOrange.shade300, width: 2),
+                              side: BorderSide(color: Colors.deepPurple.shade300, width: 2),
                               backgroundColor: Colors.white,
-                              foregroundColor: Colors.deepOrange.shade300,
+                              foregroundColor: Colors.deepPurple.shade300,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               minimumSize: const Size(double.infinity, 36),
@@ -291,22 +291,22 @@ double discountedPrice = product.price - (product.price * product.discount / 100
   }
 
   /// ويدجت بناء زر الحجم
-  Widget _buildSizeOption(String size) {
+  Widget _buildSizeOption(SizeOption size) {
     final isSelected = _selectedSize == size;
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedSize = size;
+          _selectedSize = size.name;
         });
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.deepOrange.shade300 : Colors.grey[200],
+          color: isSelected ? Colors.deepPurple.shade300 : Colors.grey[200],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          size, // أو 'بوصة $size' إذا كان الحجم يمثل بوصات
+          size.name, // أو 'بوصة $size' إذا كان الحجم يمثل بوصات
           style: TextStyle(color: isSelected ? Colors.white : Colors.black),
         ),
       ),

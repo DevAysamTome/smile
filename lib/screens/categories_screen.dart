@@ -37,7 +37,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
           name: data['name'] ?? '',
           price: (data['price'] ?? 0.0).toDouble(),
           discount: (data['discount'] ?? 0.0).toDouble(),
-          sizes: data['sizes'] == null ? [] : List<String>.from(data['sizes']),
+         sizes: data['sizes'],
           imageUrl: data['imageURL'] ?? '',
           category: data['categoryId'] ?? '',
           description: data['description'] ?? '',

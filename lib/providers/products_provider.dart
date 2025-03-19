@@ -31,7 +31,7 @@ class ProductsProvider with ChangeNotifier {
 
       QuerySnapshot snapshot = await query.get();
       _products = snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
-      
+        print(snapshot.docs.length);
       // حفظ آخر مستند تم تحميله
       if (snapshot.docs.isNotEmpty) {
         _lastDocument = snapshot.docs.last;

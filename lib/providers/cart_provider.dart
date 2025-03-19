@@ -12,31 +12,33 @@ class CartProvider with ChangeNotifier {
   }
 
   /// 🟢 **إضافة منتج (Product) إلى السلة**
-  void addProduct(Product product) {
-    // ابحث عما إذا كان المنتج موجودًا بالفعل في السلة
-    int index = _items.indexWhere((existingItem) => existingItem.id == product.id);
-    if (index != -1) {
-      // إذا كان موجودًا، قم بزيادة الكمية بمقدار 1
-      _items[index] = _items[index].copyWith(
-        quantity: _items[index].quantity + 1,
-      );
-    } else {
-      double discountedPrice = product.price - (product.price * product.discount / 100);
+  void addProduct(Product product, {String? selectedSize}) {
+  // ابحث عما إذا كان المنتج موجودًا بالفعل في السلة
+  int index = _items.indexWhere((existingItem) => existingItem.id == product.id);
+  if (index != -1) {
+    // إذا كان موجودًا، قم بزيادة الكمية بمقدار 1
+    _items[index] = _items[index].copyWith(
+      quantity: _items[index].quantity + 1,
+    );
+  } else {
+    // احسب السعر بعد الخصم
+    double discountedPrice = product.price - (product.price * product.discount / 100);
 
-      // إذا لم يكن موجودًا، أنشئ CartItem جديد باستخدام بيانات المنتج
-      final newItem = CartItem(
-        id: product.id,        // استخدم معرّف المنتج
-        name: product.name,    // اسم المنتج
-        quantity: 1,           // الكمية الابتدائية
-        price: discountedPrice, 
-        imageUrl: product.imageUrl,
-        size: product.sizes.first
-         // سعر المنتج
-      );
-      _items.add(newItem);
-    }
-    notifyListeners();
+    // أنشئ CartItem جديد باستخدام بيانات المنتج
+    final newItem = CartItem(
+      id: product.id,
+      name: product.name,
+      quantity: 1,
+      price: discountedPrice,
+      imageUrl: product.imageUrl,
+      // استخدم الحجم المختار إن وُجد، وإلا اختر أول حجم
+size: selectedSize ?? (product.sizes.isNotEmpty ? product.sizes.first.name : null),
+    );
+    _items.add(newItem);
   }
+  notifyListeners();
+}
+
 
   /// 🟢 **إضافة عنصر (CartItem) جاهز إلى السلة**
   void addItem(CartItem item) {
