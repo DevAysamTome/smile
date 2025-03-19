@@ -59,7 +59,7 @@ class Product {
       'price': price,
       'oldPrice': oldPrice,
       'description': description,
-      'imageUrl': imageUrl,
+      'imageURL': imageUrl,
       'categoryId': category,
       'discount': discount,
       'images': images,
