@@ -10,7 +10,8 @@ class Product {
   final String category;
   final double discount;
   final List<String> images;
-  
+  final bool isAvailable;
+  final int quantity; 
   // 🟢 الأحجام: قائمة من SizeOption
   final List<SizeOption> sizes;
 
@@ -25,6 +26,8 @@ class Product {
     required this.sizes,
     required this.discount,
     required this.images,
+    required this.isAvailable,
+    required this.quantity,
   });
 
   factory Product.fromFirestore(DocumentSnapshot doc) {
@@ -50,6 +53,8 @@ class Product {
           ? []
           : List<String>.from(data['images']),
       sizes: fetchedSizes,
+       isAvailable: data['isAvailable'] ?? true,
+      quantity: data['quantity'] ?? 0,
     );
   }
 
@@ -65,6 +70,8 @@ class Product {
       'images': images,
       // تحويل قائمة SizeOption إلى قائمة Maps
       'sizes': sizes.map((s) => s.toMap()).toList(),
+      'isAvailable':isAvailable,
+      'quantity':quantity
     };
   }
 }

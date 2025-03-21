@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smileapp/core/scroll_behavior.dart';
 import 'package:smileapp/firebase_options.dart';
+import 'package:smileapp/providers/brands_provider.dart';
 import 'package:smileapp/providers/categories_provider.dart';
 import 'package:smileapp/providers/favorites_provider.dart';
 import 'package:smileapp/routes.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrdersProvider()),
         ChangeNotifierProvider(create: (_) => CategoriesProvider()..fetchCategories()),
         ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+                ChangeNotifierProvider(create: (_) => BrandsProvider()..fetchBrands()),
+
 
       ],
       child: MaterialApp(

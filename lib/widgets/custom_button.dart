@@ -36,6 +36,10 @@ class CustomBottomNavBar extends StatelessWidget {
           icon: Icon(Icons.favorite),
           label: 'المفضلة',
         ),
+               BottomNavigationBarItem(
+          icon: Icon(Icons.category),
+          label: 'التصنيفات',
+        ),
        
       ],
     );

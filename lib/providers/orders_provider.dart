@@ -1,4 +1,5 @@
 // providers/orders_provider.dart
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smileapp/data/models/cart_item.dart';
@@ -12,17 +13,43 @@ class OrdersProvider with ChangeNotifier {
   List<OrderItem> get orders => _orders;
 
   /// إضافة طلب جديد إلى Firestore
-  Future<void> addOrder(List<CartItem> cartItems, double total,String name , String phoneNumber , String addressLocation) async {
+  ///
+  /// [cartItems]: عناصر السلة
+  /// [total]: المجموع الكلي
+  /// [name]: اسم المستخدم
+  /// [phoneNumber]: رقم الهاتف
+  /// [city], [village], [area], [street]: تفاصيل العنوان
+  /// [status]: حالة الطلب (افتراضيًا "طلب جديد" إن لم تُمرّر)
+  Future<void> addOrder({
+    required List<CartItem> cartItems,
+    required double total,
+    required String name,
+    required String phoneNumber,
+    required String city,
+    required String village,
+    required String area,
+    required String street,
+    String status = 'طلب جديد', // إن لم يمرّر شيء، القيمة الافتراضية
+  }) async {
     final dateTime = DateTime.now();
     try {
+      // إعداد خريطة العنوان
+      final addressMap = {
+        'city': city,
+        'village': village,
+        'area': area,
+        'street': street,
+      };
+
       // إضافة مستند جديد في مجموعة "orders"
       DocumentReference docRef = await _firestore.collection('orders').add({
         'cartItems': cartItems.map((item) => item.toMap()).toList(),
         'total': total,
         'dateTime': dateTime.toIso8601String(),
-        'name':name,
-        'phoneNumber':phoneNumber,
-        'addressLocation':addressLocation
+        'name': name,
+        'phoneNumber': phoneNumber,
+        'address': addressMap,       // تخزين العنوان كـ خريطة
+        'status': status.isEmpty ? 'طلب جديد' : status,
       });
 
       // إنشاء كائن Order محليًا (لو أردت الاحتفاظ به)
@@ -33,7 +60,9 @@ class OrdersProvider with ChangeNotifier {
         dateTime: dateTime,
         name: name,
         phoneNumber: phoneNumber,
-        addressLocation: addressLocation
+        // يمكنك حفظ العنوان في حقل واحد، أو كخريطة. مثلاً:
+        addressLocation: '$city, $village, $area, $street',
+        status: status.isEmpty ? 'طلب جديد' : status,
       );
       _orders.add(newOrder);
       notifyListeners();
@@ -43,7 +72,7 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
-  /// جلب الطلبات (لو أردت عرضها)
+  /// جلب الطلبات (لو أردت عرضها في واجهة "طلباتي")
   Future<void> fetchOrders() async {
     try {
       QuerySnapshot snapshot = await _firestore.collection('orders').get();

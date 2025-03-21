@@ -52,28 +52,29 @@ class ProductCard extends StatefulWidget {
 
   /// The height of the card
   final double? height;
+  final int? quantity;
 
   /// Creates a [ProductCard] widget.
-  const ProductCard({
-    super.key,
-    required this.imageUrl,
-    required this.categoryName,
-    required this.productName,
-    required this.price,
-    this.currency = '\₪',
-    this.onTap,
-    this.onFavoritePressed,
-    this.shortDescription = '',
-    this.id,
-    this.isAvailable = true,
-    this.cardColor = const Color(0xFFFFFFFF),
-    this.textColor = const Color(0xFF000000),
-    this.borderRadius = 12.0,
-    this.rating,
-    this.discountPercentage,
-    this.width = 300,
-    this.height = 360,
-  });
+  const ProductCard(
+      {super.key,
+      required this.imageUrl,
+      required this.categoryName,
+      required this.productName,
+      required this.price,
+      this.currency = '\₪',
+      this.onTap,
+      this.onFavoritePressed,
+      this.shortDescription = '',
+      this.id,
+      this.isAvailable = true,
+      this.cardColor = const Color(0xFFFFFFFF),
+      this.textColor = const Color(0xFF000000),
+      this.borderRadius = 12.0,
+      this.rating,
+      this.discountPercentage,
+      this.width = 300,
+      this.height = 360,
+      this.quantity});
 
   @override
   ProductCardState createState() => ProductCardState();
@@ -283,6 +284,17 @@ class ProductCardState extends State<ProductCard> {
                         ),
                       ],
                     ),
+                    if (widget.quantity != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'الكمية: ${widget.quantity!.toStringAsFixed(0)}',
+                          style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),

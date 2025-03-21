@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smileapp/providers/cart_provider.dart';
-import 'package:smileapp/providers/orders_provider.dart';
-import 'package:smileapp/screens/order_success.dart';
+import 'package:smileapp/data/models/cart_item.dart';
+import '../providers/cart_provider.dart';
+import '../providers/orders_provider.dart';
+import 'order_success.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({Key? key}) : super(key: key);
+
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
 }
@@ -12,20 +15,26 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // حقول النص للبيانات الشخصية
+  // الحقول النصية للبيانات الشخصية
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  
-  // حقل النص لعنوان التوصيل
-  final TextEditingController _addressController = TextEditingController();
 
-  int _currentStep = 0; // مؤشر الخطوة الحالية في الـStepper
+  // الحقول النصية للعنوان
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _villageController = TextEditingController();
+  final TextEditingController _areaController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+
+  int _currentStep = 0; // مؤشر الخطوة الحالية في الـ Stepper
 
   @override
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
+    _cityController.dispose();
+    _villageController.dispose();
+    _areaController.dispose();
+    _streetController.dispose();
     super.dispose();
   }
 
@@ -46,9 +55,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         return true;
 
       case 1:
-        // تحقق من العنوان
-        if (_addressController.text.isEmpty) {
-          _showError('يرجى إدخال العنوان');
+        // تحقق من حقول العنوان
+        if (_cityController.text.isEmpty) {
+          _showError('يرجى إدخال المدينة');
+          return false;
+        }
+        if (_villageController.text.isEmpty) {
+          _showError('يرجى إدخال القرية أو المنطقة');
+          return false;
+        }
+        if (_areaController.text.isEmpty) {
+          _showError('يرجى إدخال الحي');
+          return false;
+        }
+        if (_streetController.text.isEmpty) {
+          _showError('يرجى إدخال اسم الشارع');
           return false;
         }
         return true;
@@ -61,7 +82,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   // دالة لعرض رسالة خطأ في حالة فشل التحقق
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade600,
+      ),
     );
   }
 
@@ -92,28 +116,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   // دالة تنفيذ الطلب
-void _submitOrder() async {
-    // جلب مزوّدي الطلبات والسلة
+  void _submitOrder() async {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    // نفترض أنك تحققت من الحقول
     try {
+      // مثال على حفظ البيانات
       await ordersProvider.addOrder(
-        cartProvider.items,
-        cartProvider.totalAmount,
-        _nameController.text,
-        
-        _phoneController.text,
-        _addressController.text,
+  cartItems: cartProvider.items,
+  total: cartProvider.totalAmount,
+  name: _nameController.text,
+  phoneNumber: _phoneController.text,
+  city: _cityController.text,
+  village: _villageController.text,
+  area: _areaController.text,
+  street: _streetController.text,
+  status: 'طلب جديد', // أو أي حالة أخرى
+);
 
-      );
-print('عدد العناصر في السلة: ${cartProvider.items.length}');
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => OrderSuccessScreen()),
+        MaterialPageRoute(builder: (_) =>  OrderSuccessScreen()),
+
       );
+      cartProvider.clearCart();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('حدث خطأ أثناء إتمام الطلب: $e')),
@@ -124,19 +151,56 @@ print('عدد العناصر في السلة: ${cartProvider.items.length}');
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.rtl, // لجعل الواجهة RTL
       child: Scaffold(
         appBar: AppBar(
-          title: Text('إتمام الطلب'),
-                backgroundColor: Colors.deepPurpleAccent[100],
-
+          title: const Text('إتمام الطلب'),
+          backgroundColor: Colors.deepPurpleAccent.shade100,
         ),
-        body: Stepper(
-          currentStep: _currentStep,
-          onStepContinue: _onStepContinue,
-          onStepCancel: _onStepCancel,
-          type: StepperType.vertical, // يمكن تغييره إلى StepperType.horizontal
-          steps: _buildSteps(),
+        body: Theme(
+          // لتخصيص شكل الـStepper بشكل أجمل
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: Colors.deepPurple, // لون مؤشرات الخطوات
+                ),
+          ),
+          child: Stepper(
+            currentStep: _currentStep,
+            onStepContinue: _onStepContinue,
+            onStepCancel: _onStepCancel,
+            type: StepperType.vertical,
+            steps: _buildSteps(),
+            controlsBuilder: (BuildContext context, ControlsDetails details) {
+              // تصميم مخصص لأزرار المتابعة والتراجع
+              final isLastStep = _currentStep == _buildSteps().length - 1;
+              return Row(
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: details.onStepContinue,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                    ),
+                    child: Text(isLastStep ? 'إتمام الطلب' : 'التالي'),
+                  ),
+                  const SizedBox(width: 8),
+                  if (_currentStep != 0)
+                    OutlinedButton(
+                      onPressed: details.onStepCancel,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.deepPurple,
+                        side: const BorderSide(color: Colors.deepPurple),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                      ),
+                      child: const Text('السابق'),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -146,13 +210,15 @@ print('عدد العناصر في السلة: ${cartProvider.items.length}');
   List<Step> _buildSteps() {
     return [
       Step(
-        title: Text('البيانات الشخصية'),
+        title: const Text('البيانات الشخصية',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         content: _buildPersonalInfoForm(),
         isActive: _currentStep >= 0,
         state: _currentStep > 0 ? StepState.complete : StepState.indexed,
       ),
       Step(
-        title: Text('عنوان التوصيل'),
+        title: const Text('عنوان التوصيل',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         content: _buildAddressForm(),
         isActive: _currentStep >= 1,
         state: _currentStep == 1 ? StepState.editing : StepState.indexed,
@@ -164,13 +230,19 @@ print('عدد العناصر في السلة: ${cartProvider.items.length}');
   Widget _buildPersonalInfoForm() {
     return Column(
       children: [
-        TextFormField(
+        _buildTextField(
           controller: _nameController,
-          decoration: InputDecoration(labelText: 'الاسم'),
+          label: 'الاسم الكامل',
+          hint: 'أدخل اسمك الثلاثي',
+          icon: Icons.person,
+          keyboardType: TextInputType.name,
         ),
-        TextFormField(
+        const SizedBox(height: 12),
+        _buildTextField(
           controller: _phoneController,
-          decoration: InputDecoration(labelText: 'رقم الهاتف'),
+          label: 'رقم الهاتف',
+          hint: 'مثال: 059xxxxxxxx',
+          icon: Icons.phone,
           keyboardType: TextInputType.phone,
         ),
       ],
@@ -179,10 +251,62 @@ print('عدد العناصر في السلة: ${cartProvider.items.length}');
 
   // النموذج الخاص بعنوان التوصيل (الخطوة الثانية)
   Widget _buildAddressForm() {
-    return TextFormField(
-      controller: _addressController,
-      decoration: InputDecoration(labelText: 'العنوان'),
-      maxLines: 2,
+    return Column(
+      children: [
+        _buildTextField(
+          controller: _cityController,
+          label: 'المدينة',
+          hint: 'مثال: غزة، رام الله...',
+          icon: Icons.location_city,
+        ),
+        const SizedBox(height: 12),
+        _buildTextField(
+          controller: _villageController,
+          label: 'القرية / المنطقة',
+          hint: 'مثال: القرية الفلانية...',
+          icon: Icons.map,
+        ),
+        const SizedBox(height: 12),
+        _buildTextField(
+          controller: _areaController,
+          label: 'الحي',
+          hint: 'مثال: حي النصر، حي الزيتون...',
+          icon: Icons.location_on,
+        ),
+        const SizedBox(height: 12),
+        _buildTextField(
+          controller: _streetController,
+          label: 'الشارع',
+          hint: 'اسم الشارع أو المعلم البارز',
+          icon: Icons.streetview,
+        ),
+      ],
+    );
+  }
+
+  // ودجت مساعدة لبناء TextField بتصميم متناسق
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon, color: Colors.deepPurple),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
     );
   }
 }

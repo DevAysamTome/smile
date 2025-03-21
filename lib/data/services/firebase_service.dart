@@ -16,7 +16,9 @@ class FirebaseService {
       category: doc['categoryId'],
       sizes: doc['sizes'],
       discount: doc['discount'],
-      images: doc['imageUrl']
+      images: doc['imageUrl'],
+      quantity: doc['quantity'],
+isAvailable: doc['isAvailable']
     )).toList();
   }
 }

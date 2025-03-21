@@ -1,4 +1,3 @@
-// models/order.dart
 import 'package:smileapp/data/models/cart_item.dart';
 
 class OrderItem {
@@ -9,6 +8,8 @@ class OrderItem {
   final String name;
   final String phoneNumber;
   final String addressLocation;
+  final String status; // <-- الحقل الجديد
+
   OrderItem({
     required this.id,
     required this.cartItems,
@@ -16,7 +17,8 @@ class OrderItem {
     required this.dateTime,
     required this.addressLocation,
     required this.name,
-    required this.phoneNumber
+    required this.phoneNumber,
+    required this.status,
   });
 
   // تحويل الطلب إلى خريطة (للتخزين في Firestore مثلاً)
@@ -27,26 +29,25 @@ class OrderItem {
       'total': total,
       'dateTime': dateTime.toIso8601String(),
       'name': name,
-      'phoneNumber':phoneNumber,
-      'addressLocation':addressLocation
+      'phoneNumber': phoneNumber,
+      'addressLocation': addressLocation,
+      'status': status,
     };
   }
 
-  // لو أردت بناء Order من وثيقة Firestore
-  // (ليس ضروريًا إن لم تكن تعرض الطلبات للمستخدم)
+  // بناء Order من وثيقة Firestore
   factory OrderItem.fromMap(Map<String, dynamic> data, String docId) {
     return OrderItem(
       id: docId,
       cartItems: (data['cartItems'] as List)
           .map((e) => CartItem.fromMap(e))
           .toList(),
-      total: data['total'],
-      dateTime: DateTime.parse(data['dateTime'],
-
-      ),
-      addressLocation: data['addressLocation'],
-      name: data['name'],
-      phoneNumber: data['phoneNumber']
+      total: (data['total'] ?? 0.0).toDouble(),
+      dateTime: DateTime.parse(data['dateTime']),
+      addressLocation: data['addressLocation'] ?? '',
+      name: data['name'] ?? '',
+      phoneNumber: data['phoneNumber'] ?? '',
+      status: data['status'] ?? 'طلب جديد', // إذا لم يوجد، نضع افتراضي
     );
   }
 }

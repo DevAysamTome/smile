@@ -18,10 +18,10 @@ class ProductCardWithButtons extends StatelessWidget {
        ProductCard(
           productName: product.name,
           price: product.price,
-          isAvailable: true,
+          isAvailable: product.isAvailable,
           rating: 4.5,
           discountPercentage: product.discount,
-          
+          quantity: product.quantity,
           categoryName: product.category,
           imageUrl: product.imageUrl,
           onTap: () {

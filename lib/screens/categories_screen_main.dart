@@ -5,97 +5,125 @@ import 'package:smileapp/screens/categories_screen.dart';
 import '../data/models/category.dart';
 import '../providers/categories_provider.dart';
 
-// شاشة تعرض قائمة التصنيفات
+// شاشة عرض التصنيفات بنمط شبكي متطور
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // جلب قائمة التصنيفات من خلال المزوّد
+    // جلب التصنيفات من المزوّد
     final categoriesProvider = Provider.of<CategoriesProvider>(context);
-    final categories = categoriesProvider.categories; // يفترض أنها List<Category>
+    final categories = categoriesProvider.categories; // List<Category>
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('التصنيفات'),
-        backgroundColor: Colors.deepOrange.shade300,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.deepOrangeAccent.shade100, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('التصنيفات'),
+          backgroundColor: Colors.deepPurple.shade300,
+          foregroundColor: Colors.white,
+          centerTitle: true,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-          child: ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (ctx, index) {
-              final category = categories[index];
-              return _buildCategoryItem(context, category);
-            },
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.deepPurpleAccent.shade100,
+                Colors.white,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: GridView.builder(
+              itemCount: categories.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // عرض عنصرين في الصف الواحد
+                childAspectRatio: 1, // الحفاظ على نسبة العرض للارتفاع متساوية
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemBuilder: (ctx, index) {
+                final category = categories[index];
+                return _buildCategoryGridItem(context, category);
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  // عنصر تصنيف بشكل بطاقة منسّقة
-  Widget _buildCategoryItem(BuildContext context, Category category) {
-    return Card(
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          // الانتقال لشاشة تعرض منتجات هذا الصنف
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => CategoryProductsScreen(category: category),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            children: [
-              // إذا لديك صورة للصنف
-              if (category.imageUrl != null && category.imageUrl!.isNotEmpty)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    category.imageUrl!,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              else
-                // صورة افتراضية إن لم يوجد
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(Icons.image_not_supported, color: Colors.white70),
-                ),
-              const SizedBox(width: 16),
-              // اسم التصنيف
-              Expanded(
-                child: Text(
-                  category.name,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  // عنصر شبكة للتصنيف مع تأثيرات بصرية متطورة
+  Widget _buildCategoryGridItem(BuildContext context, Category category) {
+    return GestureDetector(
+      onTap: () {
+        // الانتقال لشاشة منتجات التصنيف عند النقر
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CategoryProductsScreen(category: category),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // خلفية الصورة في حال توفرها
+            if (category.imageUrl != null && category.imageUrl!.isNotEmpty)
+              Image.network(
+                category.imageUrl!,
+                fit: BoxFit.cover,
+                errorBuilder: (ctx, error, stackTrace) =>
+                    Container(color: Colors.grey.shade300),
+              )
+            else
+              Container(color: Colors.grey.shade300),
+            // تأثير تراكبي لتعزيز وضوح النصوص
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-            ],
-          ),
+            ),
+            // عرض اسم التصنيف في أسفل البطاقة
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  category.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 2,
+                        color: Colors.black54,
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

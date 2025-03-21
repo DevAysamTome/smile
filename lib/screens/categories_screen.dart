@@ -55,6 +55,8 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
             ? []
             : List<String>.from(data['images']),
         oldPrice: (data['oldPrice'] ?? 0.0).toDouble(),
+        isAvailable: data['isAvailable'] ?? true,
+        quantity: data['quantity'] ?? 0
       );
     }).toList();
 
