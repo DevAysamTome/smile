@@ -1,3 +1,4 @@
+import 'package:smileapp/providers/colorsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,12 +15,9 @@ import 'providers/orders_provider.dart';
 
 import 'core/theme.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -28,18 +26,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider( create: (_) => ProductsProvider()..fetchInitialProducts()),
+        ChangeNotifierProvider(
+          create: (_) => ProductsProvider()..fetchInitialProducts(),
+        ),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => OrdersProvider()),
-        ChangeNotifierProvider(create: (_) => CategoriesProvider()..fetchCategories()),
+        ChangeNotifierProvider(
+          create: (_) => CategoriesProvider()..fetchCategories(),
+        ),
         ChangeNotifierProvider(create: (_) => FavoritesProvider()),
-                ChangeNotifierProvider(create: (_) => BrandsProvider()..fetchBrands()),
-
-
+        ChangeNotifierProvider(create: (_) => ColorsProvider()..fetchColors()),
+        ChangeNotifierProvider(create: (_) => BrandsProvider()..fetchBrands()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Smile',
+        title: 'ALORA',
         theme: AppTheme.lightTheme,
         scrollBehavior: MyCustomScrollBehavior(),
         initialRoute: '/',

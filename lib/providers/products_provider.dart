@@ -27,7 +27,7 @@ class ProductsProvider with ChangeNotifier {
     try {
       Query query = _firestore.collection('products')
           .orderBy('name') // ترتيب حسب الاسم، يمكن تغييره
-          .limit(10); // تحديد عدد المنتجات في كل طلب
+          .limit(100); // تحديد عدد المنتجات في كل طلب
 
       QuerySnapshot snapshot = await query.get();
       _products = snapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();

@@ -28,7 +28,7 @@ class CategoriesScreen extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.deepPurpleAccent.shade100,
+                Colors.deepPurple.shade300,
                 Colors.white,
               ],
               begin: Alignment.topCenter,

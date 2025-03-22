@@ -72,8 +72,8 @@ class ProductCard extends StatefulWidget {
       this.borderRadius = 12.0,
       this.rating,
       this.discountPercentage,
-      this.width = 300,
-      this.height = 360,
+      this.width = 400,
+      this.height = 400,
       this.quantity});
 
   @override
@@ -172,16 +172,16 @@ class ProductCardState extends State<ProductCard> {
                     Text(
                       widget.categoryName,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey.shade600,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      widget.productName,
+                      widget.productName.trim(),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: widget.textColor,
                       ),

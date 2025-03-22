@@ -11,6 +11,7 @@ class Category {
     final data = doc.data() as Map<String, dynamic>;
     return Category(
       id: doc.id,
+      
       name: data['name'] ?? 'Unnamed Category',
       imageUrl: data['imageUrl']
     );

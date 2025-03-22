@@ -26,7 +26,7 @@ class CartScreen extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurpleAccent.shade100, Colors.white],
+              colors: [Colors.deepPurple.shade300, Colors.white],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -104,7 +104,7 @@ class CartScreen extends StatelessWidget {
                   SizedBox(height: 4),
                   // سعر المنتج * الكمية
                   Text(
-                    'السعر: ${(item.price * item.quantity).toStringAsFixed(2)} ر.س',
+                    'السعر: ${(item.price * item.quantity).toStringAsFixed(2)} ',
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                   SizedBox(height: 8),
@@ -168,7 +168,7 @@ class CartScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
-                '${totalAmount.toStringAsFixed(2)} ر.س',
+                '${totalAmount.toStringAsFixed(2)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
               ),
             ],

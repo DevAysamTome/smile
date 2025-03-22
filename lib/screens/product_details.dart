@@ -42,7 +42,7 @@ final basePrice = _selectedSize?.price ?? product.price;
 
     // خصم المنتج
     // إذا لم يتوفر product.discount، نحسبه من oldPrice/price أو نجعله 0
-    final double discountPercent = product.discount ??
+    final double discountPercent = product.discount.toDouble() ??
         (product.oldPrice != null
             ? ((product.oldPrice! - product.price) / product.oldPrice!) * 100
             : 0);
@@ -88,7 +88,7 @@ final discountedPrice = basePrice - (basePrice * product.discount / 100);
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepPurpleAccent.shade100, Colors.white],
+                colors: [Colors.deepPurple.shade300, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

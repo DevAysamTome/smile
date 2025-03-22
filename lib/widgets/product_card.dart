@@ -20,7 +20,7 @@ class ProductCardWithButtons extends StatelessWidget {
           price: product.price,
           isAvailable: product.isAvailable,
           rating: 4.5,
-          discountPercentage: product.discount,
+          discountPercentage: product.discount.toDouble(),
           quantity: product.quantity,
           categoryName: product.category,
           imageUrl: product.imageUrl,

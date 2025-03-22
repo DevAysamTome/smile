@@ -63,7 +63,7 @@ class _BrandProductsScreenState extends State<BrandProductsScreen> {
               gradient: LinearGradient(
                 colors: [
                   Colors.deepPurple.shade300,
-                  Colors.deepPurpleAccent,
+                  Colors.deepPurple.shade100,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -76,7 +76,7 @@ class _BrandProductsScreenState extends State<BrandProductsScreen> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.deepPurpleAccent.shade100,
+                Colors.deepPurple.shade300,
                 Colors.white,
               ],
               begin: Alignment.topCenter,

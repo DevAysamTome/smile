@@ -23,21 +23,21 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // يمكنك اختيار لون خلفية يناسب هوية تطبيقك
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.deepPurple.shade300,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // شعار التطبيق
             Image.asset(
-              'assets/smile_logo.jpeg', // ضع مسار الشعار هنا
+              'assets/alora_logo.png', // ضع مسار الشعار هنا
               width: 120,                   // يمكنك تعديل الحجم
               height: 120,
             ),
             const SizedBox(height: 16),
             // نص اختياري تحت الشعار (اسم التطبيق أو عبارة ترحيبية)
             const Text(
-              'Smile Cosmatics',
+              'Smile Cosmetics',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,

@@ -86,7 +86,7 @@ class _FooterWidgetState extends State<FooterWidget> {
       children: _socialLinks.map((link) {
         final iconData = _getFontAwesomeIcon(link.type);
         return IconButton(
-          icon: FaIcon(iconData, color: Colors.deepPurple),
+          icon: FaIcon(iconData, color: Colors.deepOrange),
           onPressed: () => _openUrl(link.url),
         );
       }).toList(),

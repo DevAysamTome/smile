@@ -24,7 +24,7 @@ class FavoritesScreen extends StatelessWidget {
             ? Container(
               decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurpleAccent.shade100, Colors.white],
+              colors: [Colors.deepPurple.shade300, Colors.white],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -35,7 +35,7 @@ class FavoritesScreen extends StatelessWidget {
             )
             : Container( decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurpleAccent.shade100, Colors.white],
+              colors: [Colors.deepPurple.shade300, Colors.white],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -54,7 +54,7 @@ class FavoritesScreen extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         title: Text(product.name),
-                        subtitle: Text('${product.price} ر.س'),
+                        subtitle: Text('${product.price}'),
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () {

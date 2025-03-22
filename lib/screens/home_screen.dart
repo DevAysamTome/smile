@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.deepPurpleAccent.shade100, Colors.white],
+                colors: [Colors.deepPurple.shade300, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -123,6 +123,65 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.only(top: kToolbarHeight + 100),
               child: Column(
                 children: [
+                 
+        
+                  PreferredSize(
+          preferredSize: const Size.fromHeight(40),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'ابحث عن منتج...',
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
+                        suffixIcon:
+                            _searchController.text.isNotEmpty
+                                ? IconButton(
+                                  icon: const Icon(
+                                    Icons.clear,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    isSearch = false;
+                                  },
+                                )
+                                : null,
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 8,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          isSearch = true;
+                          _searchQuery = value;
+                        });
+                      },
+                      // onTapOutside متوفر في إصدارات Flutter الحديثة (3.7+)
+                      onTapOutside:
+                          (event) => setState(() {
+                            isSearch = false;
+                          }),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
                   SizedBox(height: 10),
                   !isSearch
                       ? Column(
@@ -175,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   child: Text(
                                     'عرض الكل',
-                                    style: TextStyle(color: Colors.deepPurple),
+                                    style: TextStyle(color: Colors.deepPurple.shade300),
                                   ),
                                 ),
                               ],
@@ -210,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   child: Text(
                                     'عرض الكل',
-                                    style: TextStyle(color: Colors.deepPurple),
+                                    style: TextStyle(color: Colors.deepPurple.shade300),
                                   ),
                                 ),
                               ],
@@ -348,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
             bottomLeft: Radius.circular(0),
             bottomRight: Radius.circular(0),
           ),
-          child: Lottie.asset('assets/animation.json', fit: BoxFit.cover),
+          child: Container(child: Lottie.asset('assets/animation.json', fit: BoxFit.cover)),
         ),
 
         title: Padding(
@@ -373,65 +432,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        centerTitle: false,
-
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'ابحث عن منتج...',
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ),
-                        suffixIcon:
-                            _searchController.text.isNotEmpty
-                                ? IconButton(
-                                  icon: const Icon(
-                                    Icons.clear,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    isSearch = false;
-                                  },
-                                )
-                                : null,
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 8,
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          isSearch = true;
-                          _searchQuery = value;
-                        });
-                      },
-                      // onTapOutside متوفر في إصدارات Flutter الحديثة (3.7+)
-                      onTapOutside:
-                          (event) => setState(() {
-                            isSearch = false;
-                          }),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        centerTitle: false, 
       ),
     );
   }
@@ -499,32 +500,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildFeaturedSection(ProductsProvider productsProvider) {
-    if (productsProvider.isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    final products = productsProvider.products;
-    if (products.isEmpty) {
-      print(products.length);
-      return Center(child: Text('لا يوجد منتجات مميزة حالياً.'));
-    }
-    return Container(
-      height: 360,
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: products.length,
-        itemBuilder: (ctx, index) {
-          final product = products[index];
-          // استخدم ProductCard من المكتبة بدلاً من بطاقتك اليدوية
-          return Container(
-            width: 220,
-            margin: EdgeInsets.only(right: 8),
-            child: ProductCardWithButtons(product: product),
-          );
-        },
-      ),
-    );
+  if (productsProvider.isLoading) {
+    return const Center(child: CircularProgressIndicator());
   }
+  
+  final products = productsProvider.products;
+  print("Products length: ${products.length}");
+  if (products.isEmpty) {
+    return const Center(child: Text('لا يوجد منتجات مميزة حالياً.'));
+  }
+  
+  // عرض المنتجات بدون فرز للتأكد من ظهورها
+  return Container(
+    height: 420,
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: products.length,
+      itemBuilder: (ctx, index) {
+        final product = products[index];
+        print("Displaying product: ${product.name}");
+        return Container(
+          width: 420,
+          margin: const EdgeInsets.only(right: 8),
+          child: ProductCardWithButtons(product: product),
+        );
+      },
+    ),
+  );
+}
+
+
 Widget _buildCategorySectionList(ProductsProvider productsProvider) {
   if (productsProvider.isLoading) {
     return const Center(child: CircularProgressIndicator());
@@ -563,7 +569,7 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
             ),
             // قائمة أفقية لعرض منتجات الصنف مع تحديد ارتفاع ثابت
             Container(
-              height: 360,
+              height: 420,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -571,7 +577,7 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
                 itemBuilder: (context, index) {
                   final product = categoryProducts[index];
                   return Container(
-                    width: 220,
+                    width: 350,
                     margin: const EdgeInsets.only(right: 8),
                     child: ProductCardWithButtons(product: product),
                   );
@@ -587,7 +593,10 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
 
 
 
-  Widget _buildDiscountSection(ProductsProvider productsProvider) {
+
+
+
+Widget _buildDiscountSection(ProductsProvider productsProvider) {
     if (productsProvider.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -601,7 +610,7 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
     }
 
     return Container(
-      height: 360,
+      height: 420,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -609,7 +618,7 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
         itemBuilder: (ctx, index) {
           final product = discountProducts[index];
           return Container(
-            width: 220,
+            width: 350,
             margin: const EdgeInsets.only(right: 8),
             child: ProductCardWithButtons(product: product),
           );
@@ -617,4 +626,6 @@ Widget _buildCategorySectionList(ProductsProvider productsProvider) {
       ),
     );
   }
+
+
 }
