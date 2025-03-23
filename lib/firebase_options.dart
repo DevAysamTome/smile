@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDz2bTEw6xg7mqttJLSEG0_tLRdGmPTlnc',
-    appId: '1:145092540242:web:b4abb6bf6a9194210e6c8b',
-    messagingSenderId: '145092540242',
-    projectId: 'aloraapp-9020e',
-    authDomain: 'aloraapp-9020e.firebaseapp.com',
-    storageBucket: 'aloraapp-9020e.firebasestorage.app',
+    apiKey: 'AIzaSyBywWsFQyc8fJmFJcDpYyKFO8ZqXe-NweE',
+    appId: '1:209544392405:ios:763e1d3cb18589d9d9bc5c',
+    messagingSenderId: '209544392405',
+    projectId: 'smileapp-c6b27',
+    authDomain: 'smileapp-c6b27.firebaseapp.com',
+    storageBucket: 'smileapp-c6b27.firebasestorage.app',
     measurementId: 'G-CXSW3FTPEX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAXsFSyZiVHSJccaaFrIaJYOcwMmjymD7M',
-    appId: '1:145092540242:android:fd88367cfa4954d10e6c8b',
-    messagingSenderId: '145092540242',
-    projectId: 'aloraapp-9020e',
-    storageBucket: 'aloraapp-9020e.firebasestorage.app',
+    appId: '1:209544392405:android:fd88367cfa4954d10e6c8b',
+    messagingSenderId: '209544392405',
+    projectId: 'smileapp-c6b27',
+    storageBucket: 'smileapp-c6b27.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBsAHE_l2p0L9SrxAoU4wlpR8hl7qJe-B8',
-    appId: '1:145092540242:ios:9d5ec630486732fc0e6c8b',
-    messagingSenderId: '145092540242',
-    projectId: 'aloraapp-9020e',
-    storageBucket: 'aloraapp-9020e.firebasestorage.app',
-    iosBundleId: 'com.example.aloraapp',
+    appId: '1:209544392405:ios:9d5ec630486732fc0e6c8b',
+    messagingSenderId: '209544392405',
+    projectId: 'smileapp-c6b27',
+    storageBucket: 'smileapp-c6b27.firebasestorage.app',
+    iosBundleId: 'com.technocore.smileapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBsAHE_l2p0L9SrxAoU4wlpR8hl7qJe-B8',
-    appId: '1:145092540242:ios:9d5ec630486732fc0e6c8b',
-    messagingSenderId: '145092540242',
-    projectId: 'aloraapp-9020e',
-    storageBucket: 'aloraapp-9020e.firebasestorage.app',
+    appId: '1:209544392405:ios:9d5ec630486732fc0e6c8b',
+    messagingSenderId: '209544392405',
+    projectId: 'smileapp-c6b27',
+    storageBucket: 'smileapp-c6b27.firebasestorage.app',
     iosBundleId: 'com.example.aloraapp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDz2bTEw6xg7mqttJLSEG0_tLRdGmPTlnc',
-    appId: '1:145092540242:web:2ab7d8122979e5fb0e6c8b',
-    messagingSenderId: '145092540242',
-    projectId: 'aloraapp-9020e',
-    authDomain: 'aloraapp-9020e.firebaseapp.com',
-    storageBucket: 'aloraapp-9020e.firebasestorage.app',
+    apiKey: 'AIzaSyBywWsFQyc8fJmFJcDpYyKFO8ZqXe-NweE',
+    appId: '1:209544392405:web:2ab7d8122979e5fb0e6c8b',
+    messagingSenderId: '209544392405',
+    projectId: 'smileapp-c6b27',
+    authDomain: 'smileapp-c6b27.firebaseapp.com',
+    storageBucket: 'smileapp-c6b27.firebasestorage.app',
     measurementId: 'G-0TPESMN8DW',
   );
 
