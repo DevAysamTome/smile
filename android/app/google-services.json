@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:209544392405:android:fddcc950b5c1dbfad9bc5c",
+        "mobilesdk_app_id": "1:209544392405:android:fcdddc3b4b0353d2d9bc5c",
         "android_client_info": {
-          "package_name": "com.technocore.smileapp"
+          "package_name": "com.technocore.fashionsmileapp"
         }
       },
       "oauth_client": [],

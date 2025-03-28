@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'ALORA',
+        title: 'Smile App',
         theme: AppTheme.lightTheme,
         scrollBehavior: MyCustomScrollBehavior(),
         initialRoute: '/',

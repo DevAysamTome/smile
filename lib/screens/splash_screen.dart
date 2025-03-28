@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // شعار التطبيق
             Image.asset(
-              'assets/alora_logo.png', // ضع مسار الشعار هنا
+              'assets/smile_logo.jpeg', // ضع مسار الشعار هنا
               width: 120,                   // يمكنك تعديل الحجم
               height: 120,
             ),
